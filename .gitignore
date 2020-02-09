@@ -9,6 +9,9 @@ data/
 model/
 !src/model/
 
+# WebStorm
+.idea/
+
 # Logs
 logs
 *.log
