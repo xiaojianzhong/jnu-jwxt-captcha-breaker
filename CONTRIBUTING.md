@@ -51,7 +51,10 @@ The following is the list of supported scopes **currently**:
 - core
 - data
 - executable
+- label
+- logger
 - model
+- preprocess
 - util
 
 [google-javascript-style-guide]: https://google.github.io/styleguide/jsguide.html
