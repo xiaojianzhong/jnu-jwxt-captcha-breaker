@@ -51,6 +51,7 @@
   "dependencies": {
     "@tensorflow/tfjs-node": "^1.5.2",
     "commander": "^4.1.1",
-    "pngjs": "^3.4.0"
+    "pngjs": "^3.4.0",
+    "winston": "^3.2.1"
   }
 }
