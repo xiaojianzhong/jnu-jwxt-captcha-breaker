@@ -7,6 +7,7 @@
     "outDir": "dist",
     "removeComments": true,
     "skipLibCheck": true,
+    "strictNullChecks": true,
     "target": "ES2018",
     "types": ["node", "jest"] // supported by @types/*
   },
