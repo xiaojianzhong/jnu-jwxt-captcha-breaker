@@ -29,8 +29,8 @@ export function parseFilename(path: string): Filename {
     throw new Error("The file's path is an empty string.");
   }
 
-  const parts = path.split('/');
-  const full = parts.pop() || '';
+  const parts: string[] = path.split('/');
+  const full: string = parts.pop() || '';
 
   const [prefix = '', suffix = ''] = full.split('.');
 
@@ -60,7 +60,7 @@ export function fill(number: number, numDigits: number): string {
   }
 
   const numZeros = numDigits - length;
-  const zeroArray = new Array(numZeros).fill(0);
+  const zeroArray: number[] = new Array(numZeros).fill(0);
   return `${zeroArray.join('')}${number}`;
 }
 
