@@ -4,6 +4,11 @@
   "description": "JiNan University captcha breaker.",
   "bin": "./bin/jnucb.js",
   "main": "./src/index.js",
+  "files": [
+    "bin",
+    "dist",
+    "model/"
+  ],
   "scripts": {
     "build": "tsc",
     "lint": "eslint \"{src,test}/**/*.{js,ts}\"",
