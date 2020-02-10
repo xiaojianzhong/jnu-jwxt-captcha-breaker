@@ -6,6 +6,7 @@
   "main": "./src/index.js",
   "scripts": {
     "build": "tsc",
+    "lint": "eslint \"{src,test}/**/*.{js,ts}\"",
     "test": "jest --notify"
   },
   "repository": {
