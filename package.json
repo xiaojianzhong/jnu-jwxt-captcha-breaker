@@ -45,6 +45,7 @@
     "lint-staged": "^10.0.7",
     "prettier": "1.19.1",
     "pretty-quick": "^2.0.1",
+    "ts-jest": "^25.2.0",
     "typescript": "^3.7.5"
   },
   "dependencies": {
