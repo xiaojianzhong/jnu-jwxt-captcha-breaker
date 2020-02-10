@@ -1,0 +1,5 @@
+# Building
+dist/*
+
+# Coverage
+coverage/*
