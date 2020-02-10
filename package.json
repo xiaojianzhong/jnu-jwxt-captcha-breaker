@@ -7,7 +7,7 @@
   "scripts": {
     "build": "tsc",
     "lint": "eslint \"{src,test}/**/*.{js,ts}\"",
-    "test": "jest --notify"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
