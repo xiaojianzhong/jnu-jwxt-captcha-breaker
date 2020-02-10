@@ -4,6 +4,7 @@
     "module": "commonjs", // generate `require(...)`
     "noImplicitAny": true,
     "noImplicitThis": true,
+    "outDir": "dist",
     "removeComments": true,
     "target": "ES2018",
     "types": ["node", "jest"] // supported by @types/*
