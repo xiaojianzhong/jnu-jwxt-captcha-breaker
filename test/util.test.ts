@@ -1,6 +1,4 @@
-import { collect } from '../src/util';
-import { parseFilename } from '../src/util';
-import { fill } from '../src/util';
+import { collect, parseFilename, fill, diffBetween } from '../src/util';
 
 describe('util', () => {
   describe('.collect()', () => {
@@ -99,6 +97,41 @@ describe('util', () => {
       expect(() => {
         fill(123, 1);
       }).toThrow("The number of digits is less than the number's length.");
+    });
+  });
+
+  describe('.diffBetween()', () => {
+    it('should return the highest score when two strings are the same', () => {
+      const result = diffBetween('abcd', 'abcd');
+
+      expect(result).toBe(4);
+    });
+    it('should return the normal score when two strings are similar', () => {
+      const result = diffBetween('abcd', 'ab12');
+
+      expect(result).toBe(2);
+    });
+    it('should return the lowest score when two strings are not similar at all', () => {
+      const result = diffBetween('abcd', '1234');
+
+      expect(result).toBe(0);
+    });
+    it("shouldn't ignore cases when comparing by default", () => {
+      const result = diffBetween('abcd', 'ABCD');
+
+      expect(result).toBe(0);
+    });
+    it('should ignore cases when specified', () => {
+      const result = diffBetween('abcd', 'ABCD', {
+        ignoreCase: true,
+      });
+
+      expect(result).toBe(4);
+    });
+    it("should throw an error when two strings are't in the same length", () => {
+      expect(() => {
+        diffBetween('abc', '1234');
+      }).toThrow("Two strings aren't in the same length.");
     });
   });
 });

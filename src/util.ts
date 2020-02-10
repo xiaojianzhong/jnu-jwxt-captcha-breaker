@@ -63,3 +63,38 @@ export function fill(number: number, numDigits: number): string {
   const zeroArray = new Array(numZeros).fill(0);
   return `${zeroArray.join('')}${number}`;
 }
+
+/**
+ * Calculate the difference score between two strings.
+ *
+ * @param {string} s1 The first string.
+ * @param {string} s2 The second string.
+ * @param {boolean} ignoreCase Whether to ignore case when comparing.
+ *
+ * @return {number} The difference score.
+ */
+export function diffBetween(
+  s1: string,
+  s2: string,
+  { ignoreCase } = { ignoreCase: false },
+): number {
+  if (s1.length !== s2.length) {
+    throw new Error("Two strings aren't in the same length.");
+  }
+  const length = s1.length;
+
+  let score = 0;
+  for (let i = 0; i < length; i++) {
+    if (ignoreCase) {
+      if (s1[i].toLowerCase() === s2[i].toLowerCase()) {
+        score++;
+      }
+    } else {
+      if (s1[i] === s2[i]) {
+        score++;
+      }
+    }
+  }
+
+  return score;
+}
