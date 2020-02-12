@@ -2,10 +2,10 @@
  * Collect string elements together.
  * It is useful in a pipeline.
  *
- * @param {string} value The value to be collected.
- * @param {string[]} previous The current array.
+ * @param {string} value
+ * @param {string[]} previous
  *
- * @return {string[]} The array added with the value.
+ * @return {string[]}
  */
 export function collect(value: string, previous: string[]): string[] {
   return previous.concat([value]);
@@ -20,9 +20,9 @@ interface Filename {
 /**
  * Parse the file's name from the file's path.
  *
- * @param {string} path The file's path to be parsed.
+ * @param {string} path
  *
- * @return {Filename} The parsed result.
+ * @return {Filename}
  */
 export function parseFilename(path: string): Filename {
   if (path.length === 0) {
@@ -44,10 +44,10 @@ export function parseFilename(path: string): Filename {
 /**
  * Fill the number into a string with the specific length.
  *
- * @param {number} number The number to be filled.
- * @param {number} numDigits The number of digits needed.
+ * @param {number} number
+ * @param {number} numDigits
  *
- * @return {string} The filled number string.
+ * @return {string}
  */
 export function fill(number: number, numDigits: number): string {
   if (number < 0) {
@@ -67,11 +67,11 @@ export function fill(number: number, numDigits: number): string {
 /**
  * Calculate the difference score between two strings.
  *
- * @param {string} s1 The first string.
- * @param {string} s2 The second string.
+ * @param {string} s1
+ * @param {string} s2
  * @param {boolean} ignoreCase Whether to ignore case when comparing.
  *
- * @return {number} The difference score.
+ * @return {number}
  */
 export function diffBetween(
   s1: string,
