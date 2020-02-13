@@ -1,7 +1,7 @@
 {
   "name": "jnu-jwxt-captcha-breaker",
   "version": "0.0.1",
-  "description": "JiNan University captcha breaker.",
+  "description": "暨南大学教务系统验证码解析程序。",
   "bin": "./bin/jnucb.js",
   "main": "./src/index.js",
   "files": [
