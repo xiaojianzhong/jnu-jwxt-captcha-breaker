@@ -56,6 +56,7 @@ The following is the list of supported scopes **currently**:
 - model
 - preprocess
 - util
+- vector
 
 [google-javascript-style-guide]: https://google.github.io/styleguide/jsguide.html
 [prettier]: https://github.com/prettier/prettier
