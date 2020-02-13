@@ -111,12 +111,12 @@ describe('util', () => {
 
       expect(result).toBe(2);
     });
-    it('should return the lowest score when two strings are not similar at all', () => {
+    it('should return the lowest score when two strings are NOT similar at all', () => {
       const result = diffBetween('abcd', '1234');
 
       expect(result).toBe(0);
     });
-    it("shouldn't ignore cases when comparing by default", () => {
+    it('should NOT ignore cases when comparing by default', () => {
       const result = diffBetween('abcd', 'ABCD');
 
       expect(result).toBe(0);
@@ -128,7 +128,7 @@ describe('util', () => {
 
       expect(result).toBe(4);
     });
-    it("should throw an error when two strings are't in the same length", () => {
+    it('should throw an error when two strings are NOT in the same length', () => {
       expect(() => {
         diffBetween('abc', '1234');
       }).toThrow("Two strings aren't in the same length.");
