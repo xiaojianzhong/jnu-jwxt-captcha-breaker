@@ -3,7 +3,12 @@ import winston from 'winston';
 const options: winston.LoggerOptions = {
   transports: [
     new winston.transports.Console({
-      level: process.env.NODE_ENV === 'development' ? 'debug' : 'error',
+      level:
+        process.env.NODE_ENV === 'development'
+          ? 'debug'
+          : process.env.NODE_ENV === 'test'
+          ? 'info'
+          : 'error',
     }),
     new winston.transports.File({
       filename: 'debug.log',
