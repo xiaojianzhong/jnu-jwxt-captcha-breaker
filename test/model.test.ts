@@ -9,7 +9,7 @@ describe('model', () => {
     });
 
     describe('.constructor', () => {
-      it('should construct a CaptchaRecognitionModel', () => {
+      it('should construct a CaptchaRecognitionModel object', () => {
         expect(model.constructor).toBe(CaptchaRecognitionModel);
       });
     });
