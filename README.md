@@ -56,7 +56,7 @@ $ jnu-jwxt-captcha-breaker --dirs <目录路径>
 该程序支持同时解析多张图片或多个目录，你还可以混合图片和目录使用：
 
 ```bash
-jnu-jwxt-captcha-breaker --paths <图片一的路径> --dirs <目录一的路径> --dirs <目录二的路径> --paths <图片二的路径>
+$ jnu-jwxt-captcha-breaker --paths <图片一的路径> --dirs <目录一的路径> --dirs <目录二的路径> --paths <图片二的路径>
 ```
 
 ### <a name="code-usage"></a> 如何在代码中使用
