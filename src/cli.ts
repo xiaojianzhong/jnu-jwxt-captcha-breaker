@@ -15,10 +15,6 @@ export async function run(args: string[]): Promise<void> {
   program.version('0.0.1');
   program
     .option(
-      '-l, --load-model',
-      'whether to load the model from the file system',
-    )
-    .option(
       '--no-load-model',
       'whether NOT to load the model from the file system',
     )

@@ -34,8 +34,8 @@ describe('cli', () => {
       parse.mockClear();
     });
 
-    it('should load the model', async () => {
-      const args = baseArguments.concat(['--load-model']);
+    it('should load the model by default', async () => {
+      const args = baseArguments;
 
       await run(args);
 
@@ -73,11 +73,7 @@ describe('cli', () => {
       expect(table).toBeCalledWith([]);
     });
     it('should load the model from the file system', async () => {
-      const args = baseArguments.concat([
-        '--load-model',
-        '--model-dir',
-        '/path/to/the/model',
-      ]);
+      const args = baseArguments.concat(['--model-dir', '/path/to/the/model']);
 
       await run(args);
 
