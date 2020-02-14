@@ -241,6 +241,7 @@ export class CaptchaImage {
 
     for (;;) {
       const leftBorder = this.getLeftBorder(border);
+      if (leftBorder === -1) break;
       const rightBorder = this.getRightBorder(leftBorder);
       const topBorder = this.getTopBorder(leftBorder, rightBorder);
       const bottomBorder = this.getBottomBorder(leftBorder, rightBorder);
@@ -261,7 +262,7 @@ export class CaptchaImage {
 
       images.push(image);
 
-      if (rightBorder === this.width - 1) break;
+      if (border === this.width) break;
     }
 
     if (images.length !== numImages) {
@@ -345,7 +346,7 @@ export class CaptchaImage {
     topBorder: number,
     bottomBorder: number,
   ): boolean {
-    for (let y = topBorder; y < bottomBorder; y++) {
+    for (let y = topBorder; y <= bottomBorder; y++) {
       if (this.isColor({ x: column, y }, color)) {
         return true;
       }
@@ -370,7 +371,7 @@ export class CaptchaImage {
     leftBorder: number,
     rightBorder: number,
   ): boolean {
-    for (let x = leftBorder; x < rightBorder; x++) {
+    for (let x = leftBorder; x <= rightBorder; x++) {
       if (this.isColor({ x, y: row }, color)) {
         return true;
       }
@@ -388,12 +389,12 @@ export class CaptchaImage {
    */
   private getLeftBorder(border: number): number {
     for (let x = border; x < this.width; x++) {
-      if (this.existsColorOnColumn(x, RED, 0, this.height)) {
+      if (this.existsColorOnColumn(x, RED, 0, this.height - 1)) {
         return x;
       }
     }
 
-    return this.width - 1;
+    return -1;
   }
 
   /**
@@ -405,7 +406,7 @@ export class CaptchaImage {
    */
   private getRightBorder(leftBorder: number): number {
     for (let x = leftBorder + 1; x < this.width; x++) {
-      if (this.existsColorOnColumn(x, RED, 0, this.height)) continue;
+      if (this.existsColorOnColumn(x, RED, 0, this.height - 1)) continue;
 
       return x - 1;
     }
@@ -428,7 +429,7 @@ export class CaptchaImage {
       }
     }
 
-    return this.height - 1;
+    return -1;
   }
 
   /**
@@ -446,7 +447,7 @@ export class CaptchaImage {
       }
     }
 
-    return 0;
+    return -1;
   }
 
   /**

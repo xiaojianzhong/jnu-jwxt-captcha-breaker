@@ -651,7 +651,7 @@ describe('image', () => {
           3,
         );
 
-        expect(isColor).toBeCalledTimes(3);
+        expect(isColor).toBeCalledTimes(4);
         expect(isColor.mock.calls).toEqual([
           [
             { x: 0, y: 0 },
@@ -663,6 +663,10 @@ describe('image', () => {
           ],
           [
             { x: 0, y: 2 },
+            { r: 255, g: 0, b: 0 },
+          ],
+          [
+            { x: 0, y: 3 },
             { r: 255, g: 0, b: 0 },
           ],
         ]);
@@ -700,7 +704,7 @@ describe('image', () => {
           3,
         );
 
-        expect(isColor).toBeCalledTimes(3);
+        expect(isColor).toBeCalledTimes(4);
         expect(isColor.mock.calls).toEqual([
           [
             { x: 0, y: 0 },
@@ -712,6 +716,10 @@ describe('image', () => {
           ],
           [
             { x: 2, y: 0 },
+            { r: 255, g: 0, b: 0 },
+          ],
+          [
+            { x: 3, y: 0 },
             { r: 255, g: 0, b: 0 },
           ],
         ]);
@@ -729,11 +737,11 @@ describe('image', () => {
 
         expect(existsColorOnColumn).toBeCalledTimes(1);
         expect(existsColorOnColumn.mock.calls).toEqual([
-          [3, { r: 255, g: 0, b: 0 }, 0, 10],
+          [3, { r: 255, g: 0, b: 0 }, 0, 9],
         ]);
         expect(result).toBe(3);
       });
-      it('should return the last checked column', () => {
+      it('should return -1', () => {
         existsColorOnColumn.mockReturnValue(false);
         image['width'] = 5;
         image['height'] = 10;
@@ -742,10 +750,10 @@ describe('image', () => {
 
         expect(existsColorOnColumn).toBeCalledTimes(2);
         expect(existsColorOnColumn.mock.calls).toEqual([
-          [3, { r: 255, g: 0, b: 0 }, 0, 10],
-          [4, { r: 255, g: 0, b: 0 }, 0, 10],
+          [3, { r: 255, g: 0, b: 0 }, 0, 9],
+          [4, { r: 255, g: 0, b: 0 }, 0, 9],
         ]);
-        expect(result).toBe(4);
+        expect(result).toBe(-1);
       });
     });
     describe('.getRightBorder()', () => {
@@ -758,8 +766,8 @@ describe('image', () => {
 
         expect(existsColorOnColumn).toBeCalledTimes(2);
         expect(existsColorOnColumn.mock.calls).toEqual([
-          [3, { r: 255, g: 0, b: 0 }, 0, 10],
-          [4, { r: 255, g: 0, b: 0 }, 0, 10],
+          [3, { r: 255, g: 0, b: 0 }, 0, 9],
+          [4, { r: 255, g: 0, b: 0 }, 0, 9],
         ]);
         expect(result).toBe(4);
       });
@@ -772,7 +780,7 @@ describe('image', () => {
 
         expect(existsColorOnColumn).toBeCalledTimes(1);
         expect(existsColorOnColumn.mock.calls).toEqual([
-          [4, { r: 255, g: 0, b: 0 }, 0, 10],
+          [4, { r: 255, g: 0, b: 0 }, 0, 9],
         ]);
         expect(result).toBe(3);
       });
@@ -790,7 +798,7 @@ describe('image', () => {
         ]);
         expect(result).toBe(0);
       });
-      it('should return the last checked column', () => {
+      it('should return -1', () => {
         existsColorOnRow.mockReturnValue(false);
         image['height'] = 3;
 
@@ -802,7 +810,7 @@ describe('image', () => {
           [1, { r: 255, g: 0, b: 0 }, 1, 3],
           [2, { r: 255, g: 0, b: 0 }, 1, 3],
         ]);
-        expect(result).toBe(2);
+        expect(result).toBe(-1);
       });
     });
     describe('.getBottomBorder()', () => {
@@ -818,7 +826,7 @@ describe('image', () => {
         ]);
         expect(result).toBe(2);
       });
-      it('should return the last checked column', () => {
+      it('should return -1', () => {
         existsColorOnRow.mockReturnValue(false);
         image['height'] = 3;
 
@@ -830,7 +838,7 @@ describe('image', () => {
           [1, { r: 255, g: 0, b: 0 }, 1, 3],
           [0, { r: 255, g: 0, b: 0 }, 1, 3],
         ]);
-        expect(result).toBe(0);
+        expect(result).toBe(-1);
       });
     });
 
