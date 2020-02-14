@@ -12,6 +12,9 @@ model/
 # WebStorm
 .idea/
 
+# VSCode launch script
+.vscode/launch.json
+
 # Logs
 logs
 *.log
