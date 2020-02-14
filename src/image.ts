@@ -54,23 +54,29 @@ export class CaptchaImage {
    *
    * @param {Buffer} buffer
    */
-  load(buffer: Buffer): void;
+  async load(buffer: Buffer): Promise<void>;
 
   /**
    * Load a new image from a `PNG` object.
    *
    * @param {PNG} png
    */
-  load(png: PNG): void;
+  async load(png: PNG): Promise<void>;
 
   /**
    * Load a new image.
    *
    * @param {Buffer|PNG} d
    */
-  load(d: Buffer | PNG): void {
+  async load(d: Buffer | PNG): Promise<void> {
     if (d.constructor === Buffer) {
-      this.png = PNG.sync.read(d as Buffer);
+      this.png = await new Promise((resolve, reject) => {
+        new PNG().parse(d as Buffer, (error, data) => {
+          if (error) return reject(error);
+
+          resolve(data);
+        });
+      });
     } else if (d.constructor === PNG) {
       this.png = d as PNG;
     }
@@ -125,13 +131,18 @@ export class CaptchaImage {
    * @param {number} padding.topPadding
    * @param {number} padding.bottomPadding
    */
-  pad({ leftPadding, rightPadding, topPadding, bottomPadding }: Padding): void {
+  async pad({
+    leftPadding,
+    rightPadding,
+    topPadding,
+    bottomPadding,
+  }: Padding): Promise<void> {
     const image = new CaptchaImage();
     const png = new PNG({
       width: this.width + leftPadding + rightPadding,
       height: this.height + topPadding + bottomPadding,
     });
-    image.load(png);
+    await image.load(png);
 
     for (let x = 0; x < image.width; x++) {
       for (let y = 0; y < image.height; y++) {
@@ -150,19 +161,19 @@ export class CaptchaImage {
       topPadding,
     );
 
-    this.load(png);
+    await this.load(png);
   }
 
   /**
    * Standardize the image's width and height.
    */
-  normalize(): void {
+  async normalize(): Promise<void> {
     if (this.width === IMAGE_WIDTH && this.height === IMAGE_HEIGHT) {
       return;
     }
 
     const normalized = new CaptchaImage();
-    normalized.load(
+    await normalized.load(
       new PNG({
         width: IMAGE_WIDTH,
         height: IMAGE_HEIGHT,
@@ -192,7 +203,7 @@ export class CaptchaImage {
       }
     }
 
-    this.load(normalized.png);
+    await this.load(normalized.png);
   }
 
   /**
@@ -246,7 +257,7 @@ export class CaptchaImage {
       this.png.bitblt(png, leftBorder, topBorder, width, height, 0, 0);
 
       const image = new CaptchaImage();
-      image.load(png);
+      await image.load(png);
 
       images.push(image);
 

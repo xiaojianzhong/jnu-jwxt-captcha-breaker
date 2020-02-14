@@ -44,9 +44,9 @@ export class CaptchaData {
 
         const path = join(dir, `${j}`, `${i}.png`);
         const buffer = readFileSync(path);
-        image.load(buffer);
+        await image.load(buffer);
 
-        image.normalize();
+        await image.normalize();
         const feature = image.vectorize();
         this.features.push(feature);
 

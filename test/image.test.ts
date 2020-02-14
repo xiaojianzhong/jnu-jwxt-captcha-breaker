@@ -87,13 +87,13 @@ describe('image', () => {
     });
 
     describe('.load()', () => {
-      it('should load from a buffer', () => {
+      it('should load from a buffer', async () => {
         const png = { width: 1, height: 2 } as PNGWithMetadata;
         const read = jest.spyOn(PNG.sync, 'read').mockReturnValue(png);
         const pixels = [1, 2];
         const buffer = Buffer.from(pixels);
 
-        image.load(buffer);
+        await image.load(buffer);
 
         expect(read).toBeCalledTimes(1);
         expect(image['width']).toBe(1);
@@ -102,10 +102,10 @@ describe('image', () => {
 
         read.mockClear();
       });
-      it('should load from a PNG object', () => {
+      it('should load from a PNG object', async () => {
         const png = new PNG({ width: 1, height: 2 });
 
-        image.load(png);
+        await image.load(png);
 
         expect(image['width']).toBe(1);
         expect(image['height']).toBe(2);
@@ -360,13 +360,13 @@ describe('image', () => {
     });
 
     describe('.pad()', () => {
-      it('should pad the image to the correct size', () => {
+      it('should pad the image to the correct size', async () => {
         const png = new PNG({ width: 2, height: 2 });
         image['width'] = 1;
         image['height'] = 1;
         image['png'] = png;
 
-        image.pad({
+        await image.pad({
           leftPadding: 1,
           rightPadding: 1,
           topPadding: 1,
@@ -392,34 +392,34 @@ describe('image', () => {
         bitblt.mockClear();
       });
 
-      it('should do nothing when both the width and height are standard', () => {
+      it('should do nothing when both the width and height are standard', async () => {
         image['width'] = 16;
         image['height'] = 16;
         image['png'] = png;
 
-        image.normalize();
+        await image.normalize();
 
         expect(load).not.toBeCalled();
         expect(bitblt).not.toBeCalled();
       });
-      it("should modify the image's size when the width is NOT standard", () => {
+      it("should modify the image's size when the width is NOT standard", async () => {
         image['width'] = 12;
         image['height'] = 16;
         image['png'] = png;
 
-        image.normalize();
+        await image.normalize();
 
         expect(load).toBeCalledTimes(1);
         expect(bitblt).toBeCalledTimes(256);
         expect(image['width']).toBe(16);
         expect(image['height']).toBe(16);
       });
-      it("should modify the image's size when the height is NOT standard", () => {
+      it("should modify the image's size when the height is NOT standard", async () => {
         image['width'] = 16;
         image['height'] = 12;
         image['png'] = png;
 
-        image.normalize();
+        await image.normalize();
 
         expect(load).toBeCalledTimes(1);
         expect(bitblt).toBeCalledTimes(256);

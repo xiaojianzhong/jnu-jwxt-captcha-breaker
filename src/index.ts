@@ -79,20 +79,20 @@ export class CaptchaBreaker {
    */
   async parse(buffer: Buffer): Promise<string> {
     const image = new CaptchaImage();
-    image.load(buffer);
+    await image.load(buffer);
 
     const images = await image.split(4);
     const labels: string[] = [];
     for (const image of images) {
       image.deinterfere();
       image.binarize();
-      image.pad({
+      await image.pad({
         leftPadding: 3,
         rightPadding: 3,
         topPadding: 2,
         bottomPadding: 2,
       });
-      image.normalize();
+      await image.normalize();
 
       const x = image.vectorize();
       const y = this.model.predict(x);
