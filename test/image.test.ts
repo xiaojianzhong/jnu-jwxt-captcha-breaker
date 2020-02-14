@@ -102,7 +102,7 @@ describe('image', () => {
       it('should set the pixel to red when its color is black and the number of red pixels surrounded by it is 2', () => {
         isColor.mockReturnValue(true);
         nColorSurrounded.mockReturnValue(2);
-        setColor.mockImplementation(() => undefined);
+        setColor.mockImplementation();
         image['width'] = 2;
         image['height'] = 2;
 
@@ -168,7 +168,7 @@ describe('image', () => {
       });
       it('should NOT set the pixel to red when its color is NOT black', () => {
         isColor.mockReturnValue(false);
-        setColor.mockImplementation(() => undefined);
+        setColor.mockImplementation();
         image['width'] = 2;
         image['height'] = 2;
 
@@ -199,7 +199,7 @@ describe('image', () => {
       it('should NOT set the pixel to red when its color is black but the number of red pixels surrounded by it is 0', () => {
         isColor.mockReturnValue(true);
         nColorSurrounded.mockReturnValue(0);
-        setColor.mockImplementation(() => undefined);
+        setColor.mockImplementation();
         image['width'] = 2;
         image['height'] = 2;
 
@@ -250,7 +250,7 @@ describe('image', () => {
     describe('.binarize()', () => {
       it('should set the pixel to black when its color is red', () => {
         isColor.mockReturnValue(true);
-        setColor.mockImplementation(() => undefined);
+        setColor.mockImplementation();
         image['width'] = 2;
         image['height'] = 2;
 
@@ -297,7 +297,7 @@ describe('image', () => {
       });
       it('should set the pixel to white when its color is NOT red', () => {
         isColor.mockReturnValue(false);
-        setColor.mockImplementation(() => undefined);
+        setColor.mockImplementation();
         image['width'] = 2;
         image['height'] = 2;
 
