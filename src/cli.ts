@@ -83,7 +83,7 @@ export async function run(args: string[]): Promise<void> {
       } catch (e) {
         results.push({
           path,
-          result: e.message(),
+          result: e.message,
         });
       }
     }
