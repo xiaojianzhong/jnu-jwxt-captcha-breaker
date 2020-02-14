@@ -1,5 +1,5 @@
 import { CaptchaImage } from '../src/image';
-import { PNG, PNGWithMetadata } from 'pngjs';
+import { PNG } from 'pngjs';
 
 describe('image', () => {
   describe('.CaptchaImage', () => {
@@ -87,21 +87,6 @@ describe('image', () => {
     });
 
     describe('.load()', () => {
-      it('should load from a buffer', async () => {
-        const png = { width: 1, height: 2 } as PNGWithMetadata;
-        const read = jest.spyOn(PNG.sync, 'read').mockReturnValue(png);
-        const pixels = [1, 2];
-        const buffer = Buffer.from(pixels);
-
-        await image.load(buffer);
-
-        expect(read).toBeCalledTimes(1);
-        expect(image['width']).toBe(1);
-        expect(image['height']).toBe(2);
-        expect(image['png']).toBe(png);
-
-        read.mockClear();
-      });
       it('should load from a PNG object', async () => {
         const png = new PNG({ width: 1, height: 2 });
 
