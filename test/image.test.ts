@@ -14,10 +14,13 @@ describe('image', () => {
     let split: jest.SpyInstance;
     let locate: jest.SpyInstance;
     let fillAlpha: jest.SpyInstance;
+    let getColor: jest.SpyInstance;
     let isColor: jest.SpyInstance;
+    let isCharacter: jest.SpyInstance;
+    let isInterferenceLine: jest.SpyInstance;
     let setColor: jest.SpyInstance;
-    let existsColorOnColumn: jest.SpyInstance;
-    let existsColorOnRow: jest.SpyInstance;
+    let existsCharacterOnColumn: jest.SpyInstance;
+    let existsCharacterOnRow: jest.SpyInstance;
     let getLeftBorder: jest.SpyInstance;
     let getRightBorder: jest.SpyInstance;
     let getTopBorder: jest.SpyInstance;
@@ -26,7 +29,7 @@ describe('image', () => {
     let atRightEdge: jest.SpyInstance;
     let atTopEdge: jest.SpyInstance;
     let atBottomEdge: jest.SpyInstance;
-    let nColorSurrounded: jest.SpyInstance;
+    let nCharacterSurrounded: jest.SpyInstance;
 
     beforeEach(() => {
       image = new CaptchaImage();
@@ -40,10 +43,16 @@ describe('image', () => {
       split = jest.spyOn(image, 'split');
       locate = jest.spyOn(image as any, 'locate');
       fillAlpha = jest.spyOn(image as any, 'fillAlpha');
+      getColor = jest.spyOn(image as any, 'getColor');
       isColor = jest.spyOn(image as any, 'isColor');
+      isCharacter = jest.spyOn(image as any, 'isCharacter');
+      isInterferenceLine = jest.spyOn(image as any, 'isInterferenceLine');
       setColor = jest.spyOn(image as any, 'setColor');
-      existsColorOnColumn = jest.spyOn(image as any, 'existsColorOnColumn');
-      existsColorOnRow = jest.spyOn(image as any, 'existsColorOnRow');
+      existsCharacterOnColumn = jest.spyOn(
+        image as any,
+        'existsCharacterOnColumn',
+      );
+      existsCharacterOnRow = jest.spyOn(image as any, 'existsCharacterOnRow');
       getLeftBorder = jest.spyOn(image as any, 'getLeftBorder');
       getRightBorder = jest.spyOn(image as any, 'getRightBorder');
       getTopBorder = jest.spyOn(image as any, 'getTopBorder');
@@ -52,7 +61,7 @@ describe('image', () => {
       atRightEdge = jest.spyOn(image as any, 'atRightEdge');
       atTopEdge = jest.spyOn(image as any, 'atTopEdge');
       atBottomEdge = jest.spyOn(image as any, 'atBottomEdge');
-      nColorSurrounded = jest.spyOn(image as any, 'nColorSurrounded');
+      nCharacterSurrounded = jest.spyOn(image as any, 'nCharacterSurrounded');
     });
 
     afterEach(() => {
@@ -65,10 +74,13 @@ describe('image', () => {
       split.mockClear();
       locate.mockClear();
       fillAlpha.mockClear();
+      getColor.mockClear();
       isColor.mockClear();
+      isCharacter.mockClear();
+      isInterferenceLine.mockClear();
       setColor.mockClear();
-      existsColorOnColumn.mockClear();
-      existsColorOnRow.mockClear();
+      existsCharacterOnColumn.mockClear();
+      existsCharacterOnRow.mockClear();
       getLeftBorder.mockClear();
       getRightBorder.mockClear();
       getTopBorder.mockClear();
@@ -77,7 +89,7 @@ describe('image', () => {
       atRightEdge.mockClear();
       atTopEdge.mockClear();
       atBottomEdge.mockClear();
-      nColorSurrounded.mockClear();
+      nCharacterSurrounded.mockClear();
     });
 
     describe('.constructor', () => {
@@ -99,52 +111,28 @@ describe('image', () => {
     });
 
     describe('.deinterfere()', () => {
-      it('should set the pixel to red when its color is black and the number of red pixels surrounded by it is 2', () => {
-        isColor.mockReturnValue(true);
-        nColorSurrounded.mockReturnValue(2);
+      it('should set the pixel to red when it is the interference line and the number of red pixels surrounded by it is 2', () => {
+        isInterferenceLine.mockReturnValue(true);
+        nCharacterSurrounded.mockReturnValue(2);
         setColor.mockImplementation();
         image['width'] = 2;
         image['height'] = 2;
 
         image.deinterfere();
 
-        expect(isColor).toBeCalledTimes(4);
-        expect(isColor.mock.calls).toEqual([
-          [
-            { x: 0, y: 0 },
-            { r: 0, g: 0, b: 0 },
-          ],
-          [
-            { x: 0, y: 1 },
-            { r: 0, g: 0, b: 0 },
-          ],
-          [
-            { x: 1, y: 0 },
-            { r: 0, g: 0, b: 0 },
-          ],
-          [
-            { x: 1, y: 1 },
-            { r: 0, g: 0, b: 0 },
-          ],
+        expect(isInterferenceLine).toBeCalledTimes(4);
+        expect(isInterferenceLine.mock.calls).toEqual([
+          [{ x: 0, y: 0 }],
+          [{ x: 0, y: 1 }],
+          [{ x: 1, y: 0 }],
+          [{ x: 1, y: 1 }],
         ]);
-        expect(nColorSurrounded).toBeCalledTimes(4);
-        expect(nColorSurrounded.mock.calls).toEqual([
-          [
-            { x: 0, y: 0 },
-            { r: 255, g: 0, b: 0 },
-          ],
-          [
-            { x: 0, y: 1 },
-            { r: 255, g: 0, b: 0 },
-          ],
-          [
-            { x: 1, y: 0 },
-            { r: 255, g: 0, b: 0 },
-          ],
-          [
-            { x: 1, y: 1 },
-            { r: 255, g: 0, b: 0 },
-          ],
+        expect(nCharacterSurrounded).toBeCalledTimes(4);
+        expect(nCharacterSurrounded.mock.calls).toEqual([
+          [{ x: 0, y: 0 }],
+          [{ x: 0, y: 1 }],
+          [{ x: 1, y: 0 }],
+          [{ x: 1, y: 1 }],
         ]);
         expect(setColor).toBeCalledTimes(4);
         expect(setColor.mock.calls).toEqual([
@@ -166,82 +154,46 @@ describe('image', () => {
           ],
         ]);
       });
-      it('should NOT set the pixel to red when its color is NOT black', () => {
-        isColor.mockReturnValue(false);
+      it('should NOT set the pixel to red when it is NOT the interference line', () => {
+        isInterferenceLine.mockReturnValue(false);
         setColor.mockImplementation();
         image['width'] = 2;
         image['height'] = 2;
 
         image.deinterfere();
 
-        expect(isColor).toBeCalledTimes(4);
-        expect(isColor.mock.calls).toEqual([
-          [
-            { x: 0, y: 0 },
-            { r: 0, g: 0, b: 0 },
-          ],
-          [
-            { x: 0, y: 1 },
-            { r: 0, g: 0, b: 0 },
-          ],
-          [
-            { x: 1, y: 0 },
-            { r: 0, g: 0, b: 0 },
-          ],
-          [
-            { x: 1, y: 1 },
-            { r: 0, g: 0, b: 0 },
-          ],
+        expect(isInterferenceLine).toBeCalledTimes(4);
+        expect(isInterferenceLine.mock.calls).toEqual([
+          [{ x: 0, y: 0 }],
+          [{ x: 0, y: 1 }],
+          [{ x: 1, y: 0 }],
+          [{ x: 1, y: 1 }],
         ]);
-        expect(nColorSurrounded).toBeCalledTimes(0);
+        expect(nCharacterSurrounded).toBeCalledTimes(0);
         expect(setColor).toBeCalledTimes(0);
       });
-      it('should NOT set the pixel to red when its color is black but the number of red pixels surrounded by it is 0', () => {
-        isColor.mockReturnValue(true);
-        nColorSurrounded.mockReturnValue(0);
+      it('should NOT set the pixel to red when it is the interference line but the number of red pixels surrounded by it is 0', () => {
+        isInterferenceLine.mockReturnValue(true);
+        nCharacterSurrounded.mockReturnValue(0);
         setColor.mockImplementation();
         image['width'] = 2;
         image['height'] = 2;
 
         image.deinterfere();
 
-        expect(isColor).toBeCalledTimes(4);
-        expect(isColor.mock.calls).toEqual([
-          [
-            { x: 0, y: 0 },
-            { r: 0, g: 0, b: 0 },
-          ],
-          [
-            { x: 0, y: 1 },
-            { r: 0, g: 0, b: 0 },
-          ],
-          [
-            { x: 1, y: 0 },
-            { r: 0, g: 0, b: 0 },
-          ],
-          [
-            { x: 1, y: 1 },
-            { r: 0, g: 0, b: 0 },
-          ],
+        expect(isInterferenceLine).toBeCalledTimes(4);
+        expect(isInterferenceLine.mock.calls).toEqual([
+          [{ x: 0, y: 0 }],
+          [{ x: 0, y: 1 }],
+          [{ x: 1, y: 0 }],
+          [{ x: 1, y: 1 }],
         ]);
-        expect(nColorSurrounded).toBeCalledTimes(4);
-        expect(nColorSurrounded.mock.calls).toEqual([
-          [
-            { x: 0, y: 0 },
-            { r: 255, g: 0, b: 0 },
-          ],
-          [
-            { x: 0, y: 1 },
-            { r: 255, g: 0, b: 0 },
-          ],
-          [
-            { x: 1, y: 0 },
-            { r: 255, g: 0, b: 0 },
-          ],
-          [
-            { x: 1, y: 1 },
-            { r: 255, g: 0, b: 0 },
-          ],
+        expect(nCharacterSurrounded).toBeCalledTimes(4);
+        expect(nCharacterSurrounded.mock.calls).toEqual([
+          [{ x: 0, y: 0 }],
+          [{ x: 0, y: 1 }],
+          [{ x: 1, y: 0 }],
+          [{ x: 1, y: 1 }],
         ]);
         expect(setColor).toBeCalledTimes(0);
       });
@@ -249,31 +201,19 @@ describe('image', () => {
 
     describe('.binarize()', () => {
       it('should set the pixel to black when its color is red', () => {
-        isColor.mockReturnValue(true);
+        isCharacter.mockReturnValue(true);
         setColor.mockImplementation();
         image['width'] = 2;
         image['height'] = 2;
 
         image.binarize();
 
-        expect(isColor).toBeCalledTimes(4);
-        expect(isColor.mock.calls).toEqual([
-          [
-            { x: 0, y: 0 },
-            { r: 255, g: 0, b: 0 },
-          ],
-          [
-            { x: 0, y: 1 },
-            { r: 255, g: 0, b: 0 },
-          ],
-          [
-            { x: 1, y: 0 },
-            { r: 255, g: 0, b: 0 },
-          ],
-          [
-            { x: 1, y: 1 },
-            { r: 255, g: 0, b: 0 },
-          ],
+        expect(isCharacter).toBeCalledTimes(4);
+        expect(isCharacter.mock.calls).toEqual([
+          [{ x: 0, y: 0 }],
+          [{ x: 0, y: 1 }],
+          [{ x: 1, y: 0 }],
+          [{ x: 1, y: 1 }],
         ]);
         expect(setColor).toBeCalledTimes(4);
         expect(setColor.mock.calls).toEqual([
@@ -296,31 +236,19 @@ describe('image', () => {
         ]);
       });
       it('should set the pixel to white when its color is NOT red', () => {
-        isColor.mockReturnValue(false);
+        isCharacter.mockReturnValue(false);
         setColor.mockImplementation();
         image['width'] = 2;
         image['height'] = 2;
 
         image.binarize();
 
-        expect(isColor).toBeCalledTimes(4);
-        expect(isColor.mock.calls).toEqual([
-          [
-            { x: 0, y: 0 },
-            { r: 255, g: 0, b: 0 },
-          ],
-          [
-            { x: 0, y: 1 },
-            { r: 255, g: 0, b: 0 },
-          ],
-          [
-            { x: 1, y: 0 },
-            { r: 255, g: 0, b: 0 },
-          ],
-          [
-            { x: 1, y: 1 },
-            { r: 255, g: 0, b: 0 },
-          ],
+        expect(isCharacter).toBeCalledTimes(4);
+        expect(isCharacter.mock.calls).toEqual([
+          [{ x: 0, y: 0 }],
+          [{ x: 0, y: 1 }],
+          [{ x: 1, y: 0 }],
+          [{ x: 1, y: 1 }],
         ]);
         expect(setColor).toBeCalledTimes(4);
         expect(setColor.mock.calls).toEqual([
@@ -550,57 +478,151 @@ describe('image', () => {
       });
     });
 
+    describe('.getColor()', () => {
+      it("should get the pixel's color", () => {
+        locate.mockReturnValueOnce(0);
+        const png = new PNG();
+        const pixels = [1, 2, 3, 0];
+        png.data = Buffer.from(pixels);
+        image['png'] = png;
+
+        const color = image['getColor']({ x: 1, y: 1 });
+
+        expect(locate).toBeCalledTimes(1);
+        expect(locate.mock.calls).toEqual([[{ x: 1, y: 1 }]]);
+        expect(color).toEqual({ r: 1, g: 2, b: 3 });
+      });
+    });
+
     describe('.isColor()', () => {
       it('should return true when the color is correct', () => {
-        locate.mockReturnValue(0);
-        const png = new PNG({ width: 1, height: 1 });
+        getColor.mockReturnValue({ r: 1, g: 1, b: 1 });
+        const png = new PNG();
         const pixels = [1, 1, 1, 0];
         png.data = Buffer.from(pixels);
         image['png'] = png;
 
         const result = image['isColor']({ x: 1, y: 1 }, { r: 1, g: 1, b: 1 });
 
-        expect(locate).toBeCalledTimes(1);
-        expect(locate.mock.calls).toEqual([[{ x: 1, y: 1 }]]);
+        expect(getColor).toBeCalledTimes(1);
+        expect(getColor.mock.calls).toEqual([[{ x: 1, y: 1 }]]);
         expect(result).toBe(true);
       });
       it('should return false when the red channel is NOT correct', () => {
-        locate.mockReturnValue(0);
-        const png = new PNG({ width: 1, height: 1 });
+        getColor.mockReturnValue({ r: 1, g: 1, b: 1 });
+        const png = new PNG();
         const pixels = [1, 1, 1, 0];
         png.data = Buffer.from(pixels);
         image['png'] = png;
 
         const result = image['isColor']({ x: 1, y: 1 }, { r: 2, g: 1, b: 1 });
 
-        expect(locate).toBeCalledTimes(1);
-        expect(locate.mock.calls).toEqual([[{ x: 1, y: 1 }]]);
+        expect(getColor).toBeCalledTimes(1);
+        expect(getColor.mock.calls).toEqual([[{ x: 1, y: 1 }]]);
         expect(result).toBe(false);
       });
       it('should return false when the blue channel is NOT correct', () => {
-        locate.mockReturnValue(0);
-        const png = new PNG({ width: 1, height: 1 });
+        getColor.mockReturnValue({ r: 1, g: 1, b: 1 });
+        const png = new PNG();
         const pixels = [1, 1, 1, 0];
         png.data = Buffer.from(pixels);
         image['png'] = png;
 
         const result = image['isColor']({ x: 1, y: 1 }, { r: 1, g: 2, b: 1 });
 
-        expect(locate).toBeCalledTimes(1);
-        expect(locate.mock.calls).toEqual([[{ x: 1, y: 1 }]]);
+        expect(getColor).toBeCalledTimes(1);
+        expect(getColor.mock.calls).toEqual([[{ x: 1, y: 1 }]]);
         expect(result).toBe(false);
       });
       it('should return false when the green channel is NOT correct', () => {
-        locate.mockReturnValue(0);
-        const png = new PNG({ width: 1, height: 1 });
+        getColor.mockReturnValue({ r: 1, g: 1, b: 1 });
+        const png = new PNG();
         const pixels = [1, 1, 1, 0];
         png.data = Buffer.from(pixels);
         image['png'] = png;
 
         const result = image['isColor']({ x: 1, y: 1 }, { r: 1, g: 1, b: 2 });
 
-        expect(locate).toBeCalledTimes(1);
-        expect(locate.mock.calls).toEqual([[{ x: 1, y: 1 }]]);
+        expect(getColor).toBeCalledTimes(1);
+        expect(getColor.mock.calls).toEqual([[{ x: 1, y: 1 }]]);
+        expect(result).toBe(false);
+      });
+    });
+
+    describe('.isCharacter()', () => {
+      it('should return true when the red channel is larger than 240', () => {
+        getColor.mockReturnValue({ r: 250, g: 0, b: 0 });
+
+        const result = image['isCharacter']({ x: 1, y: 1 });
+
+        expect(getColor).toBeCalledTimes(1);
+        expect(getColor.mock.calls).toEqual([[{ x: 1, y: 1 }]]);
+        expect(result).toBe(true);
+      });
+      it('should return true when the red channel is equals to 240', () => {
+        getColor.mockReturnValue({ r: 240, g: 0, b: 0 });
+
+        const result = image['isCharacter']({ x: 1, y: 1 });
+
+        expect(getColor).toBeCalledTimes(1);
+        expect(getColor.mock.calls).toEqual([[{ x: 1, y: 1 }]]);
+        expect(result).toBe(true);
+      });
+      it('should return false when the red channel is less than 240', () => {
+        getColor.mockReturnValue({ r: 230, g: 0, b: 0 });
+
+        const result = image['isCharacter']({ x: 1, y: 1 });
+
+        expect(getColor).toBeCalledTimes(1);
+        expect(getColor.mock.calls).toEqual([[{ x: 1, y: 1 }]]);
+        expect(result).toBe(false);
+      });
+    });
+
+    describe('.isInterferenceLine()', () => {
+      it('should return false when the red channel is less than 96', () => {
+        getColor.mockReturnValue({ r: 90, g: 0, b: 0 });
+
+        const result = image['isInterferenceLine']({ x: 1, y: 1 });
+
+        expect(getColor).toBeCalledTimes(1);
+        expect(getColor.mock.calls).toEqual([[{ x: 1, y: 1 }]]);
+        expect(result).toBe(false);
+      });
+      it('should return true when the red channel is equals to 96', () => {
+        getColor.mockReturnValue({ r: 96, g: 0, b: 0 });
+
+        const result = image['isInterferenceLine']({ x: 1, y: 1 });
+
+        expect(getColor).toBeCalledTimes(1);
+        expect(getColor.mock.calls).toEqual([[{ x: 1, y: 1 }]]);
+        expect(result).toBe(true);
+      });
+      it('should return true when the red channel is between 96 and 144', () => {
+        getColor.mockReturnValue({ r: 120, g: 0, b: 0 });
+
+        const result = image['isInterferenceLine']({ x: 1, y: 1 });
+
+        expect(getColor).toBeCalledTimes(1);
+        expect(getColor.mock.calls).toEqual([[{ x: 1, y: 1 }]]);
+        expect(result).toBe(true);
+      });
+      it('should return true when the red channel is equals to 144', () => {
+        getColor.mockReturnValue({ r: 144, g: 0, b: 0 });
+
+        const result = image['isInterferenceLine']({ x: 1, y: 1 });
+
+        expect(getColor).toBeCalledTimes(1);
+        expect(getColor.mock.calls).toEqual([[{ x: 1, y: 1 }]]);
+        expect(result).toBe(true);
+      });
+      it('should return false when the red channel is larger than 144', () => {
+        getColor.mockReturnValue({ r: 160, g: 0, b: 0 });
+
+        const result = image['isInterferenceLine']({ x: 1, y: 1 });
+
+        expect(getColor).toBeCalledTimes(1);
+        expect(getColor.mock.calls).toEqual([[{ x: 1, y: 1 }]]);
         expect(result).toBe(false);
       });
     });
@@ -621,107 +643,53 @@ describe('image', () => {
       });
     });
 
-    describe('.existsColorOnColumn()', () => {
-      it('should return true when there exists a red pixel on the column', () => {
-        isColor.mockReturnValue(true);
+    describe('.existsCharacterOnColumn()', () => {
+      it('should return true when there exists a character pixel on the column', () => {
+        isCharacter.mockReturnValue(true);
 
-        const result = image['existsColorOnColumn'](
-          0,
-          { r: 255, g: 0, b: 0 },
-          0,
-          3,
-        );
+        const result = image['existsCharacterOnColumn'](0, 0, 3);
 
-        expect(isColor).toBeCalledTimes(1);
-        expect(isColor.mock.calls).toEqual([
-          [
-            { x: 0, y: 0 },
-            { r: 255, g: 0, b: 0 },
-          ],
-        ]);
+        expect(isCharacter).toBeCalledTimes(1);
+        expect(isCharacter.mock.calls).toEqual([[{ x: 0, y: 0 }]]);
         expect(result).toBe(true);
       });
-      it('should return false when there does NOT exists a red pixel on the column', () => {
-        isColor.mockReturnValue(false);
+      it('should return false when there does NOT exists a character pixel on the column', () => {
+        isCharacter.mockReturnValue(false);
 
-        const result = image['existsColorOnColumn'](
-          0,
-          { r: 255, g: 0, b: 0 },
-          0,
-          3,
-        );
+        const result = image['existsCharacterOnColumn'](0, 0, 3);
 
-        expect(isColor).toBeCalledTimes(4);
-        expect(isColor.mock.calls).toEqual([
-          [
-            { x: 0, y: 0 },
-            { r: 255, g: 0, b: 0 },
-          ],
-          [
-            { x: 0, y: 1 },
-            { r: 255, g: 0, b: 0 },
-          ],
-          [
-            { x: 0, y: 2 },
-            { r: 255, g: 0, b: 0 },
-          ],
-          [
-            { x: 0, y: 3 },
-            { r: 255, g: 0, b: 0 },
-          ],
+        expect(isCharacter).toBeCalledTimes(4);
+        expect(isCharacter.mock.calls).toEqual([
+          [{ x: 0, y: 0 }],
+          [{ x: 0, y: 1 }],
+          [{ x: 0, y: 2 }],
+          [{ x: 0, y: 3 }],
         ]);
         expect(result).toBe(false);
       });
     });
 
-    describe('.existsColorOnRow()', () => {
-      it('should return true when there exists a red pixel on the row', () => {
-        isColor.mockReturnValue(true);
+    describe('.existsCharacterOnRow()', () => {
+      it('should return true when there exists a character pixel on the row', () => {
+        isCharacter.mockReturnValue(true);
 
-        const result = image['existsColorOnRow'](
-          0,
-          { r: 255, g: 0, b: 0 },
-          0,
-          3,
-        );
+        const result = image['existsCharacterOnRow'](0, 0, 3);
 
-        expect(isColor).toBeCalledTimes(1);
-        expect(isColor.mock.calls).toEqual([
-          [
-            { x: 0, y: 0 },
-            { r: 255, g: 0, b: 0 },
-          ],
-        ]);
+        expect(isCharacter).toBeCalledTimes(1);
+        expect(isCharacter.mock.calls).toEqual([[{ x: 0, y: 0 }]]);
         expect(result).toBe(true);
       });
-      it('should return false when there does NOT exists a red pixel on the row', () => {
-        isColor.mockReturnValue(false);
+      it('should return false when there does NOT exists a character pixel on the row', () => {
+        isCharacter.mockReturnValue(false);
 
-        const result = image['existsColorOnRow'](
-          0,
-          { r: 255, g: 0, b: 0 },
-          0,
-          3,
-        );
+        const result = image['existsCharacterOnRow'](0, 0, 3);
 
-        expect(isColor).toBeCalledTimes(4);
-        expect(isColor.mock.calls).toEqual([
-          [
-            { x: 0, y: 0 },
-            { r: 255, g: 0, b: 0 },
-          ],
-          [
-            { x: 1, y: 0 },
-            { r: 255, g: 0, b: 0 },
-          ],
-          [
-            { x: 2, y: 0 },
-            { r: 255, g: 0, b: 0 },
-          ],
-          [
-            { x: 3, y: 0 },
-            { r: 255, g: 0, b: 0 },
-          ],
+        expect(isCharacter).toBeCalledTimes(4);
+        expect(isCharacter.mock.calls).toEqual([
+          [{ x: 0, y: 0 }],
+          [{ x: 1, y: 0 }],
+          [{ x: 2, y: 0 }],
+          [{ x: 3, y: 0 }],
         ]);
         expect(result).toBe(false);
       });
@@ -729,114 +697,106 @@ describe('image', () => {
 
     describe('.getLeftBorder()', () => {
       it('should return the first checked column', () => {
-        existsColorOnColumn.mockReturnValue(true);
+        existsCharacterOnColumn.mockReturnValue(true);
         image['width'] = 5;
         image['height'] = 10;
 
         const result = image['getLeftBorder'](3);
 
-        expect(existsColorOnColumn).toBeCalledTimes(1);
-        expect(existsColorOnColumn.mock.calls).toEqual([
-          [3, { r: 255, g: 0, b: 0 }, 0, 9],
-        ]);
+        expect(existsCharacterOnColumn).toBeCalledTimes(1);
+        expect(existsCharacterOnColumn.mock.calls).toEqual([[3, 0, 9]]);
         expect(result).toBe(3);
       });
       it('should return -1', () => {
-        existsColorOnColumn.mockReturnValue(false);
+        existsCharacterOnColumn.mockReturnValue(false);
         image['width'] = 5;
         image['height'] = 10;
 
         const result = image['getLeftBorder'](3);
 
-        expect(existsColorOnColumn).toBeCalledTimes(2);
-        expect(existsColorOnColumn.mock.calls).toEqual([
-          [3, { r: 255, g: 0, b: 0 }, 0, 9],
-          [4, { r: 255, g: 0, b: 0 }, 0, 9],
+        expect(existsCharacterOnColumn).toBeCalledTimes(2);
+        expect(existsCharacterOnColumn.mock.calls).toEqual([
+          [3, 0, 9],
+          [4, 0, 9],
         ]);
         expect(result).toBe(-1);
       });
     });
     describe('.getRightBorder()', () => {
       it('should return the last checked column', () => {
-        existsColorOnColumn.mockReturnValue(true);
+        existsCharacterOnColumn.mockReturnValue(true);
         image['width'] = 5;
         image['height'] = 10;
 
         const result = image['getRightBorder'](2);
 
-        expect(existsColorOnColumn).toBeCalledTimes(2);
-        expect(existsColorOnColumn.mock.calls).toEqual([
-          [3, { r: 255, g: 0, b: 0 }, 0, 9],
-          [4, { r: 255, g: 0, b: 0 }, 0, 9],
+        expect(existsCharacterOnColumn).toBeCalledTimes(2);
+        expect(existsCharacterOnColumn.mock.calls).toEqual([
+          [3, 0, 9],
+          [4, 0, 9],
         ]);
         expect(result).toBe(4);
       });
       it('should return the first checked column', () => {
-        existsColorOnColumn.mockReturnValue(false);
+        existsCharacterOnColumn.mockReturnValue(false);
         image['width'] = 5;
         image['height'] = 10;
 
         const result = image['getRightBorder'](3);
 
-        expect(existsColorOnColumn).toBeCalledTimes(1);
-        expect(existsColorOnColumn.mock.calls).toEqual([
-          [4, { r: 255, g: 0, b: 0 }, 0, 9],
-        ]);
+        expect(existsCharacterOnColumn).toBeCalledTimes(1);
+        expect(existsCharacterOnColumn.mock.calls).toEqual([[4, 0, 9]]);
         expect(result).toBe(3);
       });
     });
     describe('.getTopBorder()', () => {
       it('should return the first checked column', () => {
-        existsColorOnRow.mockReturnValue(true);
+        existsCharacterOnRow.mockReturnValue(true);
         image['height'] = 3;
 
         const result = image['getTopBorder'](1, 3);
 
-        expect(existsColorOnRow).toBeCalledTimes(1);
-        expect(existsColorOnRow.mock.calls).toEqual([
-          [0, { r: 255, g: 0, b: 0 }, 1, 3],
-        ]);
+        expect(existsCharacterOnRow).toBeCalledTimes(1);
+        expect(existsCharacterOnRow.mock.calls).toEqual([[0, 1, 3]]);
         expect(result).toBe(0);
       });
       it('should return -1', () => {
-        existsColorOnRow.mockReturnValue(false);
+        existsCharacterOnRow.mockReturnValue(false);
         image['height'] = 3;
 
         const result = image['getTopBorder'](1, 3);
 
-        expect(existsColorOnRow).toBeCalledTimes(3);
-        expect(existsColorOnRow.mock.calls).toEqual([
-          [0, { r: 255, g: 0, b: 0 }, 1, 3],
-          [1, { r: 255, g: 0, b: 0 }, 1, 3],
-          [2, { r: 255, g: 0, b: 0 }, 1, 3],
+        expect(existsCharacterOnRow).toBeCalledTimes(3);
+        expect(existsCharacterOnRow.mock.calls).toEqual([
+          [0, 1, 3],
+          [1, 1, 3],
+          [2, 1, 3],
         ]);
         expect(result).toBe(-1);
       });
     });
     describe('.getBottomBorder()', () => {
       it('should return the first checked column', () => {
-        existsColorOnRow.mockReturnValue(true);
+        existsCharacterOnRow.mockReturnValue(true);
         image['height'] = 3;
 
         const result = image['getBottomBorder'](1, 3);
 
-        expect(existsColorOnRow).toBeCalledTimes(1);
-        expect(existsColorOnRow.mock.calls).toEqual([
-          [2, { r: 255, g: 0, b: 0 }, 1, 3],
-        ]);
+        expect(existsCharacterOnRow).toBeCalledTimes(1);
+        expect(existsCharacterOnRow.mock.calls).toEqual([[2, 1, 3]]);
         expect(result).toBe(2);
       });
       it('should return -1', () => {
-        existsColorOnRow.mockReturnValue(false);
+        existsCharacterOnRow.mockReturnValue(false);
         image['height'] = 3;
 
         const result = image['getBottomBorder'](1, 3);
 
-        expect(existsColorOnRow).toBeCalledTimes(3);
-        expect(existsColorOnRow.mock.calls).toEqual([
-          [2, { r: 255, g: 0, b: 0 }, 1, 3],
-          [1, { r: 255, g: 0, b: 0 }, 1, 3],
-          [0, { r: 255, g: 0, b: 0 }, 1, 3],
+        expect(existsCharacterOnRow).toBeCalledTimes(3);
+        expect(existsCharacterOnRow.mock.calls).toEqual([
+          [2, 1, 3],
+          [1, 1, 3],
+          [0, 1, 3],
         ]);
         expect(result).toBe(-1);
       });
@@ -902,17 +862,16 @@ describe('image', () => {
       });
     });
 
-    describe('.nColorSurrounded()', () => {
-      it('should return the maximum when all pixels surrounded by the pixel are red', () => {
+    describe('.nCharacterSurrounded()', () => {
+      it('should return the maximum when all pixels surrounded by the pixel are characters', () => {
         atLeftEdge.mockReturnValue(false);
         atRightEdge.mockReturnValue(false);
         atTopEdge.mockReturnValue(false);
         atBottomEdge.mockReturnValue(false);
-        isColor.mockReturnValue(true);
+        isCharacter.mockReturnValue(true);
         const coordinate = { x: 1, y: 1 };
-        const color = { r: 1, g: 1, b: 1 };
 
-        const n = image['nColorSurrounded'](coordinate, color);
+        const n = image['nCharacterSurrounded'](coordinate);
 
         expect(atLeftEdge).toBeCalledTimes(2);
         expect(atLeftEdge.mock.calls).toEqual([[coordinate], [coordinate]]);
@@ -930,29 +889,28 @@ describe('image', () => {
           [coordinate],
           [coordinate],
         ]);
-        expect(isColor).toBeCalledTimes(8);
-        expect(isColor.mock.calls).toEqual([
-          [{ x: 0, y: 1 }, color],
-          [{ x: 2, y: 1 }, color],
-          [{ x: 1, y: 0 }, color],
-          [{ x: 1, y: 2 }, color],
-          [{ x: 0, y: 0 }, color],
-          [{ x: 0, y: 2 }, color],
-          [{ x: 2, y: 0 }, color],
-          [{ x: 2, y: 2 }, color],
+        expect(isCharacter).toBeCalledTimes(8);
+        expect(isCharacter.mock.calls).toEqual([
+          [{ x: 0, y: 1 }],
+          [{ x: 2, y: 1 }],
+          [{ x: 1, y: 0 }],
+          [{ x: 1, y: 2 }],
+          [{ x: 0, y: 0 }],
+          [{ x: 0, y: 2 }],
+          [{ x: 2, y: 0 }],
+          [{ x: 2, y: 2 }],
         ]);
         expect(n).toBe(6);
       });
-      it('should return the minimum when all pixels surrounded by the pixel are NOT red', () => {
+      it('should return the minimum when all pixels surrounded by the pixel are NOT characters', () => {
         atLeftEdge.mockReturnValue(false);
         atRightEdge.mockReturnValue(false);
         atTopEdge.mockReturnValue(false);
         atBottomEdge.mockReturnValue(false);
-        isColor.mockReturnValue(false);
+        isCharacter.mockReturnValue(false);
         const coordinate = { x: 1, y: 1 };
-        const color = { r: 1, g: 1, b: 1 };
 
-        const n = image['nColorSurrounded'](coordinate, color);
+        const n = image['nCharacterSurrounded'](coordinate);
 
         expect(atLeftEdge).toBeCalledTimes(2);
         expect(atLeftEdge.mock.calls).toEqual([[coordinate], [coordinate]]);
@@ -970,14 +928,14 @@ describe('image', () => {
           [coordinate],
           [coordinate],
         ]);
-        expect(isColor).toBeCalledTimes(6);
-        expect(isColor.mock.calls).toEqual([
-          [{ x: 0, y: 1 }, color],
-          [{ x: 2, y: 1 }, color],
-          [{ x: 1, y: 0 }, color],
-          [{ x: 1, y: 2 }, color],
-          [{ x: 0, y: 0 }, color],
-          [{ x: 2, y: 0 }, color],
+        expect(isCharacter).toBeCalledTimes(6);
+        expect(isCharacter.mock.calls).toEqual([
+          [{ x: 0, y: 1 }],
+          [{ x: 2, y: 1 }],
+          [{ x: 1, y: 0 }],
+          [{ x: 1, y: 2 }],
+          [{ x: 0, y: 0 }],
+          [{ x: 2, y: 0 }],
         ]);
         expect(n).toBe(0);
       });
@@ -987,9 +945,8 @@ describe('image', () => {
         atTopEdge.mockReturnValue(true);
         atBottomEdge.mockReturnValue(true);
         const coordinate = { x: 1, y: 1 };
-        const color = { r: 1, g: 1, b: 1 };
 
-        const n = image['nColorSurrounded'](coordinate, color);
+        const n = image['nCharacterSurrounded'](coordinate);
 
         expect(atLeftEdge).toBeCalledTimes(2);
         expect(atLeftEdge.mock.calls).toEqual([[coordinate], [coordinate]]);
@@ -999,7 +956,7 @@ describe('image', () => {
         expect(atTopEdge.mock.calls).toEqual([[coordinate]]);
         expect(atBottomEdge).toBeCalledTimes(1);
         expect(atBottomEdge.mock.calls).toEqual([[coordinate]]);
-        expect(isColor).toBeCalledTimes(0);
+        expect(isCharacter).toBeCalledTimes(0);
         expect(n).toBe(0);
       });
     });

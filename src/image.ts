@@ -86,7 +86,7 @@ export class CaptchaImage {
   }
 
   /**
-   * Set some of the black pixels to red.
+   * Set some of the interference line pixels to red.
    */
   deinterfere(): void {
     const locations: Coordinate[] = [];
@@ -94,8 +94,8 @@ export class CaptchaImage {
     for (let x = 0; x < this.width; x++) {
       for (let y = 0; y < this.height; y++) {
         if (
-          this.isColor({ x, y }, BLACK) &&
-          this.nColorSurrounded({ x, y }, RED) >= 2
+          this.isInterferenceLine({ x, y }) &&
+          this.nCharacterSurrounded({ x, y }) >= 2
         ) {
           locations.push({ x, y });
         }
@@ -113,7 +113,7 @@ export class CaptchaImage {
   binarize(): void {
     for (let x = 0; x < this.width; x++) {
       for (let y = 0; y < this.height; y++) {
-        if (this.isColor({ x, y }, RED)) {
+        if (this.isCharacter({ x, y })) {
           this.setColor({ x, y }, BLACK);
         } else {
           this.setColor({ x, y }, WHITE);
@@ -299,6 +299,23 @@ export class CaptchaImage {
   }
 
   /**
+   * Get the pixel's color by its coordinate.
+   *
+   * @param {Coordinate} coordinate
+   *
+   * @return {Color}
+   */
+  private getColor(coordinate: Coordinate): Color {
+    const index = this.locate(coordinate);
+
+    return {
+      r: this.png.data[index],
+      g: this.png.data[index + 1],
+      b: this.png.data[index + 2],
+    };
+  }
+
+  /**
    * Decide whether the pixel's color is the specific color.
    *
    * @param {Coordinate} coordinate
@@ -307,13 +324,35 @@ export class CaptchaImage {
    * @return {boolean}
    */
   private isColor(coordinate: Coordinate, color: Color): boolean {
-    const index = this.locate(coordinate);
+    const c = this.getColor(coordinate);
 
-    return (
-      this.png.data[index] === color.r &&
-      this.png.data[index + 1] === color.g &&
-      this.png.data[index + 2] === color.b
-    );
+    return c.r === color.r && c.g === color.g && c.b === color.b;
+  }
+
+  /**
+   * Decide whether the pixel is the character.
+   *
+   * @param {Coordinate} coordinate
+   *
+   * @return {boolean}
+   */
+  private isCharacter(coordinate: Coordinate): boolean {
+    const color = this.getColor(coordinate);
+
+    return color.r >= 240;
+  }
+
+  /**
+   * Decide whether the pixel is the interference line.
+   *
+   * @param {Coordinate} coordinate
+   *
+   * @return {boolean}
+   */
+  private isInterferenceLine(coordinate: Coordinate): boolean {
+    const color = this.getColor(coordinate);
+
+    return color.r >= 96 && color.r <= 144;
   }
 
   /**
@@ -331,23 +370,21 @@ export class CaptchaImage {
   }
 
   /**
-   * Decide whether there exists a pixel in the specific color on the column.
+   * Decide whether there exists a character pixel on the column.
    *
    * @param {number} column
-   * @param {Color} color
    * @param {number} topBorder
    * @param {number} bottomBorder
    *
    * @return {boolean}
    */
-  private existsColorOnColumn(
+  private existsCharacterOnColumn(
     column: number,
-    color: Color,
     topBorder: number,
     bottomBorder: number,
   ): boolean {
     for (let y = topBorder; y <= bottomBorder; y++) {
-      if (this.isColor({ x: column, y }, color)) {
+      if (this.isCharacter({ x: column, y })) {
         return true;
       }
     }
@@ -356,23 +393,21 @@ export class CaptchaImage {
   }
 
   /**
-   * Decide whether there exists a pixel in the specific color on the row.
+   * Decide whether there exists a character pixel on the row.
    *
    * @param {number} row
-   * @param {Color} color
    * @param {number} leftBorder
    * @param {number} rightBorder
    *
    * @return {boolean}
    */
-  private existsColorOnRow(
+  private existsCharacterOnRow(
     row: number,
-    color: Color,
     leftBorder: number,
     rightBorder: number,
   ): boolean {
     for (let x = leftBorder; x <= rightBorder; x++) {
-      if (this.isColor({ x, y: row }, color)) {
+      if (this.isCharacter({ x, y: row })) {
         return true;
       }
     }
@@ -389,7 +424,7 @@ export class CaptchaImage {
    */
   private getLeftBorder(border: number): number {
     for (let x = border; x < this.width; x++) {
-      if (this.existsColorOnColumn(x, RED, 0, this.height - 1)) {
+      if (this.existsCharacterOnColumn(x, 0, this.height - 1)) {
         return x;
       }
     }
@@ -406,7 +441,7 @@ export class CaptchaImage {
    */
   private getRightBorder(leftBorder: number): number {
     for (let x = leftBorder + 1; x < this.width; x++) {
-      if (this.existsColorOnColumn(x, RED, 0, this.height - 1)) continue;
+      if (this.existsCharacterOnColumn(x, 0, this.height - 1)) continue;
 
       return x - 1;
     }
@@ -424,7 +459,7 @@ export class CaptchaImage {
    */
   private getTopBorder(leftBorder: number, rightBorder: number): number {
     for (let y = 0; y < this.height; y++) {
-      if (this.existsColorOnRow(y, RED, leftBorder, rightBorder)) {
+      if (this.existsCharacterOnRow(y, leftBorder, rightBorder)) {
         return y;
       }
     }
@@ -442,7 +477,7 @@ export class CaptchaImage {
    */
   private getBottomBorder(leftBorder: number, rightBorder: number): number {
     for (let y = this.height - 1; y >= 0; y--) {
-      if (this.existsColorOnRow(y, RED, leftBorder, rightBorder)) {
+      if (this.existsCharacterOnRow(y, leftBorder, rightBorder)) {
         return y;
       }
     }
@@ -488,7 +523,7 @@ export class CaptchaImage {
   }
 
   /**
-   * Calculate the number of pixels in the specific color surrounded by the pixel.
+   * Calculate the number of character pixels surrounded by the pixel.
    *
    * @param {Coordinate} coordinate
    * @param {number} coordinate.x
@@ -497,20 +532,20 @@ export class CaptchaImage {
    *
    * @return {number}
    */
-  private nColorSurrounded({ x, y }: Coordinate, color: Color): number {
+  private nCharacterSurrounded({ x, y }: Coordinate): number {
     let n = 0;
 
     if (!this.atLeftEdge({ x, y })) {
-      n += this.isColor({ x: x - 1, y }, color) ? 1 : 0; // left
+      n += this.isCharacter({ x: x - 1, y }) ? 1 : 0; // left
     }
     if (!this.atRightEdge({ x, y })) {
-      n += this.isColor({ x: x + 1, y }, color) ? 1 : 0; // right
+      n += this.isCharacter({ x: x + 1, y }) ? 1 : 0; // right
     }
     if (!this.atTopEdge({ x, y })) {
-      n += this.isColor({ x, y: y - 1 }, color) ? 1 : 0; // top
+      n += this.isCharacter({ x, y: y - 1 }) ? 1 : 0; // top
     }
     if (!this.atBottomEdge({ x, y })) {
-      n += this.isColor({ x, y: y + 1 }, color) ? 1 : 0; // bottom
+      n += this.isCharacter({ x, y: y + 1 }) ? 1 : 0; // bottom
     }
     if (
       !this.atLeftEdge({ x, y }) &&
@@ -518,8 +553,8 @@ export class CaptchaImage {
       !this.atBottomEdge({ x, y })
     ) {
       n +=
-        this.isColor({ x: x - 1, y: y - 1 }, color) &&
-        this.isColor({ x: x - 1, y: y + 1 }, color)
+        this.isCharacter({ x: x - 1, y: y - 1 }) &&
+        this.isCharacter({ x: x - 1, y: y + 1 })
           ? 1
           : 0; // left & top + left & bottom
     }
@@ -529,8 +564,8 @@ export class CaptchaImage {
       !this.atBottomEdge({ x, y })
     ) {
       n +=
-        this.isColor({ x: x + 1, y: y - 1 }, color) &&
-        this.isColor({ x: x + 1, y: y + 1 }, color)
+        this.isCharacter({ x: x + 1, y: y - 1 }) &&
+        this.isCharacter({ x: x + 1, y: y + 1 })
           ? 1
           : 0; // right & top + right & bottom
     }
