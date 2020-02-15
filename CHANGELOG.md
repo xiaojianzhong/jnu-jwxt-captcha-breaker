@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.2](https://github.com/azxj/jnu-jwxt-captcha-breaker/compare/v0.0.1...v0.0.2) (2020-02-15)
+
+### Bug Fixes
+
+- **image:** consider image processing in the real world ([8e50f09](https://github.com/azxj/jnu-jwxt-captcha-breaker/commit/8e50f098635ec13c41381d6a99ca018f59cad531))
+- **index:** enable function call `init()` ([8911d0e](https://github.com/azxj/jnu-jwxt-captcha-breaker/commit/8911d0eec834a239a2ef67ceb69112e0be9d246b))
+- **model:** remove tensorflow logging by setting an environment variable ([0b2a82a](https://github.com/azxj/jnu-jwxt-captcha-breaker/commit/0b2a82a387d43353b131429669fc390d8dabef4c))
+
 ### 0.0.1 (2020-02-14)
 
 ### Features
