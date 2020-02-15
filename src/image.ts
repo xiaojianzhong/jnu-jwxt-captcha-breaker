@@ -95,7 +95,7 @@ export class CaptchaImage {
       for (let y = 0; y < this.height; y++) {
         if (
           this.isInterferenceLine({ x, y }) &&
-          this.nCharacterSurrounded({ x, y }) >= 2
+          this.nCharacterSurrounded({ x, y }) >= 1
         ) {
           locations.push({ x, y });
         }
