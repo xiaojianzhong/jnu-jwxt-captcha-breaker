@@ -1,3 +1,5 @@
+process.env['TF_CPP_MIN_LOG_LEVEL'] = '2';
+
 import * as tf from '@tensorflow/tfjs-node';
 import { IMAGE_WIDTH, IMAGE_HEIGHT } from './image';
 import { NUM_CLASSES } from './label';
