@@ -8,6 +8,9 @@ node_js:
   - 11
   - 12
   - 13
+branches:
+  only:
+    - master
 cache:
   directories:
     - node_modules
