@@ -92,6 +92,34 @@ describe('image', () => {
       nCharacterSurrounded.mockClear();
     });
 
+    afterAll(() => {
+      load.mockRestore();
+      deinterfere.mockRestore();
+      binarize.mockRestore();
+      pad.mockRestore();
+      normalize.mockRestore();
+      vectorize.mockRestore();
+      split.mockRestore();
+      locate.mockRestore();
+      fillAlpha.mockRestore();
+      getColor.mockRestore();
+      isColor.mockRestore();
+      isCharacter.mockRestore();
+      isInterferenceLine.mockRestore();
+      setColor.mockRestore();
+      existsCharacterOnColumn.mockRestore();
+      existsCharacterOnRow.mockRestore();
+      getLeftBorder.mockRestore();
+      getRightBorder.mockRestore();
+      getTopBorder.mockRestore();
+      getBottomBorder.mockRestore();
+      atLeftEdge.mockRestore();
+      atRightEdge.mockRestore();
+      atTopEdge.mockRestore();
+      atBottomEdge.mockRestore();
+      nCharacterSurrounded.mockRestore();
+    });
+
     describe('.constructor', () => {
       it('should construct a CaptchaImage object', () => {
         expect(image.constructor).toBe(CaptchaImage);
@@ -303,6 +331,10 @@ describe('image', () => {
 
       afterEach(() => {
         bitblt.mockClear();
+      });
+
+      afterAll(() => {
+        bitblt.mockRestore();
       });
 
       it('should do nothing when both the width and height are standard', async () => {

@@ -40,6 +40,13 @@ describe('index', () => {
         modelSave.mockClear();
       });
 
+      afterAll(() => {
+        modelLoad.mockRestore();
+        dataLoad.mockRestore();
+        modelTrain.mockRestore();
+        modelSave.mockRestore();
+      });
+
       it('should only load the model from the file system by default', async () => {
         await breaker.init();
 

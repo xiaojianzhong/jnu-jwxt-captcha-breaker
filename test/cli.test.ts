@@ -34,6 +34,15 @@ describe('cli', () => {
       parse.mockClear();
     });
 
+    afterAll(() => {
+      exit.mockRestore();
+      table.mockRestore();
+      readdirSync.mockRestore();
+      readFileSync.mockRestore();
+      init.mockRestore();
+      parse.mockRestore();
+    });
+
     it('should load the model by default', async () => {
       const args = baseArguments;
 
