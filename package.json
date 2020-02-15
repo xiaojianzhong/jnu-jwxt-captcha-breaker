@@ -14,7 +14,7 @@
     "lint": "eslint \"{src,test}/**/*.{js,ts}\"",
     "prepare": "tsc",
     "release": "standard-version",
-    "test": "NODE_ENV=test jest"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
