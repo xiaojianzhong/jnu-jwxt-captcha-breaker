@@ -20,7 +20,7 @@
 
 ## <a name="prerequisites"></a> 环境要求
 
-1. [Node.js](https://nodejs.org)
+1. [Node.js](https://nodejs.org) >= 10
 2. [npm](https://www.npmjs.com)
 
 ## <a name="installation"></a> 安装
