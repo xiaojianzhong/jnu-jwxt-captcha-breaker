@@ -40,13 +40,17 @@ export class CaptchaBreaker {
    * @param {string} option.dataDir
    * @param {string} option.modelDir
    */
-  async init({
-    loadModel = true,
-    trainModel = false,
-    saveModel = false,
-    dataDir = join(__dirname, '..', 'data'),
-    modelDir = join(__dirname, '..', 'model'),
-  }: InitializationOption): Promise<void> {
+  async init(
+    {
+      loadModel = true,
+      trainModel = false,
+      saveModel = false,
+      dataDir = join(__dirname, '..', 'data'),
+      modelDir = join(__dirname, '..', 'model'),
+    }: InitializationOption = {
+      loadModel: true,
+    },
+  ): Promise<void> {
     if (loadModel) {
       logger.debug('begin loading model');
       await this.model.load(modelDir);

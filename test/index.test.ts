@@ -40,6 +40,13 @@ describe('index', () => {
         modelSave.mockClear();
       });
 
+      it('should only load the model from the file system by default', async () => {
+        await breaker.init();
+
+        expect(modelLoad).toBeCalled();
+        expect(modelTrain).not.toBeCalled();
+        expect(modelSave).not.toBeCalled();
+      });
       it('should load the model from the file system', async () => {
         await breaker.init({ loadModel: true });
 
