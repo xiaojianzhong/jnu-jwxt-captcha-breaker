@@ -1,8 +1,10 @@
 # 暨南大学教务系统验证码解析程序
 
-![Build Status](https://travis-ci.org/azxj/jnu-jwxt-captcha-breaker)
-![NPM Version](https://www.npmjs.org/package/jnu-jwxt-captcha-breaker)
-![Install Size](https://packagephobia.now.sh/result?p=jnu-jwxt-captcha-breaker)
+![Travis (.com)](https://img.shields.io/travis/com/azxj/jnu-jwxt-captcha-breaker)
+![npm](https://img.shields.io/npm/v/jnu-jwxt-captcha-breaker)
+![npm](https://img.shields.io/npm/dw/jnu-jwxt-captcha-breaker)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/azxj/jnu-jwxt-captcha-breaker)
+![GitHub](https://img.shields.io/github/license/azxj/jnu-jwxt-captcha-breaker)
 
 [暨南大学教务系统](https://jwxt.jnu.edu.cn)验证码解析程序。
 
