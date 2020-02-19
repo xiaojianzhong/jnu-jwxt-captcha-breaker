@@ -29,6 +29,9 @@
     "url": "https://github.com/azxj/jnu-jwxt-captcha-breaker/issues"
   },
   "homepage": "https://github.com/azxj/jnu-jwxt-captcha-breaker#readme",
+  "engines": {
+    "node": ">=10"
+  },
   "husky": {
     "hooks": {
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
