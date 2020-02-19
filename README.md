@@ -129,37 +129,37 @@ npm run lint
 
 该程序在 30 张真实图片上的识别测试结果如下：
 
-| (index) | path                  | result                      |
-| ------- | --------------------- | --------------------------- |
-| 0       | ![](./asset/5yu6.png) | Unable to split characters. |
-| 1       | ![](./asset/6fYG.png) | Unable to split characters. |
-| 2       | ![](./asset/7uff.png) | Unable to split characters. |
-| 3       | ![](./asset/8mdk.png) | amdk                        |
-| 4       | ![](./asset/Aa3F.png) | Aa3F                        |
-| 5       | ![](./asset/ENeU.png) | ENMu                        |
-| 6       | ![](./asset/GCYU.png) | Unable to split characters. |
-| 7       | ![](./asset/KXGL.png) | Unable to split characters. |
-| 8       | ![](./asset/NSMe.png) | NSMe                        |
-| 9       | ![](./asset/QUbG.png) | QubG                        |
-| 10      | ![](./asset/RUx8.png) | Ruxd                        |
-| 11      | ![](./asset/WxLz.png) | wxLz                        |
-| 12      | ![](./asset/YecQ.png) | YOCQ                        |
-| 13      | ![](./asset/ZpeH.png) | ZpeH                        |
-| 14      | ![](./asset/daUh.png) | dauh                        |
-| 15      | ![](./asset/fK3K.png) | Unable to split characters. |
-| 16      | ![](./asset/giHh.png) | Unable to split characters. |
-| 17      | ![](./asset/gxTb.png) | gxTb                        |
-| 18      | ![](./asset/h5Gn.png) | h5Gn                        |
-| 19      | ![](./asset/kMpR.png) | kMpH                        |
-| 20      | ![](./asset/mMUa.png) | Unable to split characters. |
-| 21      | ![](./asset/mRNh.png) | mRNh                        |
-| 22      | ![](./asset/mhsP.png) | mhsP                        |
-| 23      | ![](./asset/rcPz.png) | rCPz                        |
-| 24      | ![](./asset/sYYX.png) | Unable to split characters. |
-| 25      | ![](./asset/wAnY.png) | Unable to split characters. |
-| 26      | ![](./asset/xh5Q.png) | Unable to split characters. |
-| 27      | ![](./asset/ysUA.png) | Unable to split characters. |
-| 28      | ![](./asset/zKqB.png) | zKqb                        |
-| 29      | ![](./asset/zLnZ.png) | zLnz                        |
+| index | image                 | result                      |
+| ----- | --------------------- | --------------------------- |
+| 0     | ![](./asset/5yu6.png) | Unable to split characters. |
+| 1     | ![](./asset/6fYG.png) | Unable to split characters. |
+| 2     | ![](./asset/7uff.png) | Unable to split characters. |
+| 3     | ![](./asset/8mdk.png) | amdk                        |
+| 4     | ![](./asset/Aa3F.png) | Aa3F                        |
+| 5     | ![](./asset/ENeU.png) | ENMu                        |
+| 6     | ![](./asset/GCYU.png) | Unable to split characters. |
+| 7     | ![](./asset/KXGL.png) | Unable to split characters. |
+| 8     | ![](./asset/NSMe.png) | NSMe                        |
+| 9     | ![](./asset/QUbG.png) | QubG                        |
+| 10    | ![](./asset/RUx8.png) | Ruxd                        |
+| 11    | ![](./asset/WxLz.png) | wxLz                        |
+| 12    | ![](./asset/YecQ.png) | YOCQ                        |
+| 13    | ![](./asset/ZpeH.png) | ZpeH                        |
+| 14    | ![](./asset/daUh.png) | dauh                        |
+| 15    | ![](./asset/fK3K.png) | Unable to split characters. |
+| 16    | ![](./asset/giHh.png) | Unable to split characters. |
+| 17    | ![](./asset/gxTb.png) | gxTb                        |
+| 18    | ![](./asset/h5Gn.png) | h5Gn                        |
+| 19    | ![](./asset/kMpR.png) | kMpH                        |
+| 20    | ![](./asset/mMUa.png) | Unable to split characters. |
+| 21    | ![](./asset/mRNh.png) | mRNh                        |
+| 22    | ![](./asset/mhsP.png) | mhsP                        |
+| 23    | ![](./asset/rcPz.png) | rCPz                        |
+| 24    | ![](./asset/sYYX.png) | Unable to split characters. |
+| 25    | ![](./asset/wAnY.png) | Unable to split characters. |
+| 26    | ![](./asset/xh5Q.png) | Unable to split characters. |
+| 27    | ![](./asset/ysUA.png) | Unable to split characters. |
+| 28    | ![](./asset/zKqB.png) | zKqb                        |
+| 29    | ![](./asset/zLnZ.png) | zLnz                        |
 
 目前在字符分割算法上仍然表现欠佳，需要改进。
