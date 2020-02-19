@@ -1,6 +1,7 @@
 # 暨南大学教务系统验证码解析程序
 
 ![Travis (.com)](https://img.shields.io/travis/com/azxj/jnu-jwxt-captcha-breaker)
+![node](https://img.shields.io/node/v/jnu-jwxt-captcha-breaker)
 ![npm](https://img.shields.io/npm/v/jnu-jwxt-captcha-breaker)
 ![npm](https://img.shields.io/npm/dw/jnu-jwxt-captcha-breaker)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/azxj/jnu-jwxt-captcha-breaker)
