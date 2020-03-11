@@ -1,4 +1,4 @@
-# 暨南大学教务系统验证码解析程序
+# 暨南大学教务系统验证码解析模型
 
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/azxj/jnu-jwxt-captcha-breaker/Node.js)
 ![node](https://img.shields.io/node/v/jnu-jwxt-captcha-breaker)
@@ -7,7 +7,7 @@
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/azxj/jnu-jwxt-captcha-breaker)
 ![GitHub](https://img.shields.io/github/license/azxj/jnu-jwxt-captcha-breaker)
 
-[暨南大学教务系统](https://jwxt.jnu.edu.cn)验证码解析程序。
+基于 [TensorFlow.js](https://www.tensorflow.org/js) 的 暨南大学教务系统验证码解析模型。
 
 ## 目录
 

@@ -1,7 +1,7 @@
 {
   "name": "jnu-jwxt-captcha-breaker",
   "version": "0.0.3",
-  "description": "暨南大学教务系统验证码解析程序。",
+  "description": "基于 TensorFlow.js 的暨南大学教务系统验证码解析模型。",
   "bin": "./bin/jnucb.js",
   "main": "./dist/index.js",
   "files": [
