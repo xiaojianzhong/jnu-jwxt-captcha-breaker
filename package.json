@@ -63,7 +63,7 @@
     "typescript": "^3.7.5"
   },
   "dependencies": {
-    "@tensorflow/tfjs-node": "^1.5.2",
+    "@tensorflow/tfjs-node": "^2.7.0",
     "commander": "^4.1.1",
     "pngjs": "^3.4.0",
     "winston": "^3.2.1"
