@@ -1,9 +1,6 @@
 # 暨南大学教务系统验证码解析模型
 
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/xiaojianzhong/jnu-jwxt-captcha-breaker/Node.js)
-![node](https://img.shields.io/node/v/jnu-jwxt-captcha-breaker)
-![npm](https://img.shields.io/npm/v/jnu-jwxt-captcha-breaker)
-![npm](https://img.shields.io/npm/dw/jnu-jwxt-captcha-breaker)
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/xiaojianzhong/jnu-jwxt-captcha-breaker)
 ![GitHub](https://img.shields.io/github/license/xiaojianzhong/jnu-jwxt-captcha-breaker)
 
